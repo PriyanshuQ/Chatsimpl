@@ -1,40 +1,61 @@
-import React from 'react'
-import {VStack, ButtonGroup, FormControl, FormLabel, Button, FormErrorMessage, Input, Heading } from "@chakra-ui/react"
-import { useFormik } from "formik"
-import * as Yup from "yup"
+import { Button, ButtonGroup, Heading, VStack } from "@chakra-ui/react";
+import { Form, Formik } from "formik";
+import { useNavigate } from "react-router";
+import * as Yup from "yup";
+import TextField from "./TextField";
 
 const Login = () => {
-    const formik = useFormik({
-        initialValues: {username: "", password: ""},
-        validationSchema: Yup.object({
-            username: Yup.string().required("Username is required").min(6, "Username too short").max(28, "Username too long"),
-            password: Yup.string().required("Password is required").min(6, "Password too short").max(28, "Password too long"),
-        }),
-        onSubmit:(values, actions)=>{
-            alert(JSON.stringify(values, null, 2));
-            actions.resetForm();
-        }
-    });
+  const navigate = useNavigate();
   return (
-    <VStack as="form" w={{base:"90%", md: "500px"}} m="auto" justify="center" h="100vh" spacing="1rem" onSubmit={formik.handleSubmit}>
+    <Formik
+      initialValues={{ username: "", password: "" }}
+      validationSchema={Yup.object({
+        username: Yup.string()
+          .required("Username required!")
+          .min(6, "Username too short!")
+          .max(28, "Username too long!"),
+        password: Yup.string()
+          .required("Password required!")
+          .min(6, "Password too short!")
+          .max(28, "Password too long!"),
+      })}
+      onSubmit={(values, actions) => {
+        alert(JSON.stringify(values, null, 2));
+        actions.resetForm();
+      }}
+    >
+      <VStack
+        as={Form}
+        w={{ base: "90%", md: "500px" }}
+        m="auto"
+        justify="center"
+        h="100vh"
+        spacing="1rem"
+      >
         <Heading>Log In</Heading>
-        <FormControl isInvalid={formik.errors.username && formik.touched.username}>
-            <FormLabel fontSize="lg">Username</FormLabel>
-            <Input name="username" placeholder="Enter username" autoComplete="off" size="lg" value={formik.values.username} onChange={formik.handleChange} onBlur={formik.handleBlur}/>
-            <FormErrorMessage>{formik.errors.username}</FormErrorMessage>
-        </FormControl>
-        <FormControl isInvalid={formik.errors.password && formik.touched.password}>
-        <FormLabel fontSize="lg">Password</FormLabel>
-            <Input name="password" placeholder="Enter password" autoComplete="off" size="lg" type="password" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} {...formik.getFieldProps("password")}/>
-            <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
-        </FormControl>
+        <TextField
+          name="username"
+          placeholder="Enter username"
+          autoComplete="off"
+          label="Username"
+        />
+
+        <TextField
+          name="password"
+          placeholder="Enter password"
+          autoComplete="off"
+          label="Password"
+        />
 
         <ButtonGroup pt="1rem">
-            <Button colorScheme='teal' type="submit">Log In</Button>
-            <Button>Create Account</Button>
+          <Button colorScheme="teal" type="submit">
+            Log In
+          </Button>
+          <Button onClick={() => navigate("/register")}>Create Account</Button>
         </ButtonGroup>
-    </VStack>
-  )
-}
+      </VStack>
+    </Formik>
+  );
+};
 
-export default Login
+export default Login;
