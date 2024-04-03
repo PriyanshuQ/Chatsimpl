@@ -1,5 +1,5 @@
 {
-  "name": "chatsimpl",
+  "name": "@whatsapp-clone/client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -22,7 +22,8 @@
     "react-scripts": "5.0.1",
     "socket.io": "^4.7.5",
     "web-vitals": "^2.1.4",
-    "yup": "^1.4.0"
+    "yup": "^1.4.0",
+    "@whatsapp-clone/common": "1.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
